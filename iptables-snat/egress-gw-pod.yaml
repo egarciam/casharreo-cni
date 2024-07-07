@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egress-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: egress-gateway
+  template:
+    metadata:
+      labels:
+        app: egress-gateway
+    spec:
+      containers:
+      - name: egress-gateway
+        image: localhost:5000/egress-gateway-iptables:latest
+        env:
+        - name: EGRESS_IP
+          value: "192.0.2.1"  # Replace with your desired external IP
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        ports:
+        - containerPort: 80
