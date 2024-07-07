@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+  annotations:
+    k8s.v1.cni.cncf.io/networks: secondary-network
+spec:
+  containers:
+  - name: example
+    image: busybox
+    command: ["sleep", "3600"]

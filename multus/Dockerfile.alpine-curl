@@ -1,0 +1,6 @@
+FROM alpine:latest
+
+RUN apk add --no-cache iptables curl
+  
+CMD ["sh", "-c", "while true; do sleep 3600; done"]
+

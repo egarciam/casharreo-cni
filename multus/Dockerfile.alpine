@@ -1,0 +1,11 @@
+FROM alpine:latest
+
+RUN apk add --no-cache iptables syslog-ng busybox-openrc \
+  && rc-update add syslog boot \
+  && rc-status
+RUN touch /run/openrc/softlevel
+#RUN rc-service syslog start 
+#RUN rc-service syslog status
+
+CMD ["sh", "-c", "syslogd -O /var/log/iptables.log; tail -f /var/log/iptables.log"]
+

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egress-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: egress-gateway
+  template:
+    metadata:
+      labels:
+        app: egress-gateway
+      annotations:
+        k8s.v1.cni.cncf.io/networks: secondary-network #macvlan-conf
+    spec:
+      initContainers:
+      - name: setup-iptables
+        image: localhost:5000/egress-gateway:latest #busybox
+        command:
+        - /bin/sh
+        - -c
+        - |
+          iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j SNAT --to-source 172.27.231.26
+          iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o eth0 -j SNAT --to-source 172.27.231.27
+          iptables -t nat -A POSTROUTING -s 10.10.0.0/16 -o eth0 -j LOG --log-prefix "EGRESS: " --log-level 4
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+      containers:
+      - name: egress-gateway
+        image: localhost:5000/egress-gateway:latest #alpine
+        command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+#      nodeSelector:
+#        kubernetes.io/hostname: <your-node-name>

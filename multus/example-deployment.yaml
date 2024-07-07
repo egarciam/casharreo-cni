@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      name: example-pod
+      labels:
+        app: example
+      annotations:
+        k8s.v1.cni.cncf.io/networks: secondary-network #,macvlan-conf
+    spec:
+      containers:
+      - name: example
+        image: busybox
+        command: ["sleep", "3600"]
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
