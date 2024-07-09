@@ -1,9 +1,0 @@
-https://github.com/k8snetworkplumbingwg/multus-cni/blob/master/docs%2Fhow-to-use.md
-
-Obtener cni plugins curl -OL https://github.com/containernetworking/plugins/releases/download/v1.5.1/cni-plugins-linux-amd64-v1.5.1.tgz
-
-Construir pod egress
-docker build -f ./Dockerfile.alpine -t localhost:5000/egress-gateway:latest .
-
-docker build -f ./Dockerfile.alpine-curl -t localhost:5000/alpine-curl:latest . 
-docker push localhost:5000/alpine-curl:latest
