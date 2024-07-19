@@ -1,0 +1,13 @@
+apiVersion: egressgateway.spidernet.io/v1beta1
+kind: EgressGateway
+metadata:
+  name: alternate-egw
+spec:
+  ippools:
+    ipv4:
+    #- "172.22.0.100-172.22.0.110"
+    - "172.18.0.250-172.18.0.254"
+  nodeSelector:
+    selector:
+      matchLabels:
+        egressgateway-alt: "true"

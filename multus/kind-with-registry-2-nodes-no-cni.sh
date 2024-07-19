@@ -34,6 +34,7 @@ nodes:
 networking:
   # the default CNI will not be installed
   disableDefaultCNI: true
+  podSubnet: 192.168.0.0/16 # Calico set up
 containerdConfigPatches:
 - |-
   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]

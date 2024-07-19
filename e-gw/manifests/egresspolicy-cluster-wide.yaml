@@ -5,7 +5,11 @@ metadata:
 # namespace: 
 spec:
  egressGatewayName: default
+ egressIP:                 # 
+   ipv4: "172.18.0.110"                            
+   ipv6: ""
+   useNodeIP: false        # 
  appliedTo:
-  podSelector:
-   matchLabels:
-    egw: "default"
+   podSelector:
+    matchLabels:
+     egw: "default"

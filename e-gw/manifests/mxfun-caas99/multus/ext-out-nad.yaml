@@ -1,0 +1,22 @@
+# from https://orange-telco-cloud.com.intraorange/CaaS/1.0.0/Operations/optional-units-operations/multus-operations/
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: macvlan-ext-out
+  #namespace: 
+spec:
+  config: '{
+    "cniVersion": "0.3.0",
+    "type": "macvlan",
+    "master": "ens5",
+    "mode": "bridge",
+    "ipam": {
+      "type": "host-local",
+      "subnet": "192.168.20.0/24",
+      "rangeStart": "192.168.20.8",
+      "rangeEnd": "192.168.20.199", 
+      "gateway": "192.168.20.1"
+    }
+  }'
+# poc-egw-gateway "192.168.20.200-192.168.20.202"  por el tema range start - range
+  
