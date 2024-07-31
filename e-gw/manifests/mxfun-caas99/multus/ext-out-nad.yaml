@@ -5,18 +5,58 @@ metadata:
   name: macvlan-ext-out
   #namespace: 
 spec:
-  config: '{
-    "cniVersion": "0.3.0",
-    "type": "macvlan",
-    "master": "ens5",
-    "mode": "bridge",
-    "ipam": {
-      "type": "host-local",
-      "subnet": "192.168.20.0/24",
-      "rangeStart": "192.168.20.8",
-      "rangeEnd": "192.168.20.199", 
-      "gateway": "192.168.20.1"
-    }
-  }'
+  config:  '{
+      "cniVersion": "0.3.1",
+      "plugins": [
+        {
+          "type": "macvlan",
+          "capabilities": { "ips": true },
+          "master": "ens5",
+          "mode": "bridge",
+          "ipam": {
+             "type": "static"
+          }
+        }, {
+          "capabilities": { "mac": true },
+          "type": "tuning"
+        }
+      ]
+    }'
+  # config:  '{
+  #       "cniVersion": "0.3.1",
+  #       "plugins": [
+  #         {
+  #           "type": "macvlan",
+  #           "capabilities": { "ips": true },
+  #           "master": "ens5",
+  #           "mode": "bridge",
+  #           "ipam": {
+  #             "type": "static",
+  #             "routes": [
+  #               {
+  #                 "dst": "0.0.0.0/0",
+  #                 "gw": "192.168.100.254"
+  #               }
+  #             ] 
+  #           }
+  #         }, {
+  #           "capabilities": { "mac": true },
+  #           "type": "tuning"
+  #         }
+  #       ]
+  #     }'    
 # poc-egw-gateway "192.168.20.200-192.168.20.202"  por el tema range start - range
-  
+  #   config: '{
+  #   "cniVersion": "0.3.0",
+  #   "type": "macvlan",
+  #   "capabilities": {"ips": true},
+  #   "master": "ens5",
+  #   "mode": "bridge",
+  #   "ipam": {
+  #     "type": "host-local",
+  #     "subnet": "192.168.20.0/24",
+  #     "rangeStart": "192.168.20.20",
+  #     "rangeEnd": "192.168.20.199", 
+  #     "gateway": "192.168.20.1"
+  #   }
+  # }'

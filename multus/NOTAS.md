@@ -24,3 +24,5 @@ docker push localhost:5000/alpine-curl:latest
 ``` docker run -d --name echo-3 --rm --net=kind registry.k8s.io/echoserver:1.4 ``` <br/>
 **Usando --network=kind por el k8s**
 
+Invocar desde el sample pod curl echo-3:8080
+
