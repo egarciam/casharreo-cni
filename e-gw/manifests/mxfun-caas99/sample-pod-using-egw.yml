@@ -41,12 +41,12 @@ kind: Pod
 metadata:
   name: samplepod-using-egw
   annotations:
-    #k8s.v1.cni.cncf.io/networks: macvlan-ext-out-2
-    k8s.v1.cni.cncf.io/networks: '[
-        { "name": "macvlan-ext-out-2",
-          "ips": [ "192.168.20.32/24" ],
-          "mac": "12:04:1d:d0:62:59"
-        }]'
+    k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
+    # k8s.v1.cni.cncf.io/networks: '[
+    #     { "name": "macvlan-ext-out-2",
+    #       "ips": [ "192.168.20.32/24" ],
+    #       "mac": "12:04:1d:d0:62:59"
+    #     }]'
   labels:
     app: poc-egw-pod
 spec:

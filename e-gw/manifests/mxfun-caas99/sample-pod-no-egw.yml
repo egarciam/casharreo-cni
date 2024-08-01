@@ -41,13 +41,8 @@ kind: Pod
 metadata:
   name: samplepod-noegw
   annotations:
-    # k8s.v1.cni.cncf.io/networks: macvlan-ext-out
-    k8s.v1.cni.cncf.io/networks: '[
-        { "name": "macvlan-ext-out",
-          "ips": [ "192.168.20.30/24" ],
-          "mac": "c2:b0:57:49:47:f1"
-        }]'
-    
+    k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
+
     # k8s.v1.cni.cncf.io/networks: '[
     #     { "name": "macvlan-ext-out",
     #       "ips": [ "192.168.20.20/24" ],

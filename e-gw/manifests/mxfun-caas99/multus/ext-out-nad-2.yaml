@@ -16,12 +16,9 @@ spec:
           "ipam": {
             "type": "host-local",
             "subnet": "192.168.20.0/24",
-            "rangeStart": "192.168.20.30",
-            "rangeEnd": "192.168.20.50"
+            "rangeStart": "192.168.20.51",
+            "rangeEnd": "192.168.20.60"
           }
-        }, {
-          "capabilities": { "mac": true },
-          "type": "tuning"
         }
       ]
     }'   
