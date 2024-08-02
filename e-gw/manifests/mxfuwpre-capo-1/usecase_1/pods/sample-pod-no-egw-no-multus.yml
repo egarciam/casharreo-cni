@@ -5,9 +5,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: samplepod-noegw-uc2
-  annotations:
-    k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
+  name: samplepod-noegw-no-multus
+  # annotations:
+  #   k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
 spec:
   # initContainers:
   # - name: setup-routes
@@ -22,15 +22,15 @@ spec:
   #     # capabilities:
   #     #   add:
   #     #   - NET_ADMIN
-  affinity: #affinity is used to oblige the pod deployment on the right node(s)
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: worker-class
-            operator: In
-            values:
-            - multus
+  # affinity: #affinity is used to oblige the pod deployment on the right node(s)
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: worker-class
+  #           operator: In
+  #           values:
+  #           - multus
   containers:
   - name: samplepod
     command: ["/bin/bash", "-c", "trap : TERM INT; sleep infinity & wait"]
