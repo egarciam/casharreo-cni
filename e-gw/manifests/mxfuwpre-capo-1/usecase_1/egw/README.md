@@ -1,0 +1,1 @@
+Relacion de manifests para configuracion de egress gatwey en el cluster que nombra a la carpeta

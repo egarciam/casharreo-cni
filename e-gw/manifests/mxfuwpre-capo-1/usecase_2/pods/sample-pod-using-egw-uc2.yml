@@ -1,0 +1,49 @@
+# Define a pod with macvlan-conf, defined above, with ip address and mac, and 
+# "gateway" overrides default gateway to use macvlan-conf's one. 
+# without "gateway" in k8s.v1.cni.cncf.io/networks, default route will be cluster
+# network interface, eth0, even tough macvlan-conf has default gateway config.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: samplepod-using-egw-uc2
+  annotations:
+    k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
+
+  labels:
+   
+    egw: poc-uc2
+spec:
+  # initContainers:
+  # - name: setup-routes
+  #   image: busybox
+  #   command:
+  #   - /bin/sh
+  #   - -c
+  #   - |
+  #     ip route del default dev eth0
+  #   securityContext:
+  #     privileged: true
+  #     # capabilities:
+  #     #   add:
+  #     #   - NET_ADMIN
+  affinity: #affinity is used to oblige the pod deployment on the right node(s)
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: worker-class
+            operator: In
+            values:
+            - multus
+  containers:
+  - name: samplepod
+    command: ["/bin/bash", "-c", "trap : TERM INT; sleep infinity & wait"]
+    securityContext:
+      privileged: true
+      # capabilities:
+      #   add:
+      #     - NET_ADMIN
+    image: dougbtv/centos-network
+    ports:
+    - containerPort: 80
+  automountServiceAccountToken: false

@@ -1,0 +1,12 @@
+apiVersion: egressgateway.spidernet.io/v1beta1
+kind: EgressGateway
+metadata:
+  name: poc-egw-gateway-uc2
+spec:
+  ippools:
+    ipv4:
+    - "100.10.10.200-100.10.10.202"
+  nodeSelector:
+    selector:
+      matchLabels:
+        egressgateway: "true"
