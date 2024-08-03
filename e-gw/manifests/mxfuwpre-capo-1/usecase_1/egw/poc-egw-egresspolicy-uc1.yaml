@@ -8,4 +8,5 @@ spec:
  appliedTo:
   podSelector:
    matchLabels:
-    app: "poc-egw-pod"
+    # app: "poc-egw-pod"
+    egw: "poc-uc1" # modificado pra prueba de stress

@@ -10,7 +10,9 @@ metadata:
     k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
 
   labels:
-    app: poc-egw-pod
+    # app: poc-egw-pod
+    egw: "poc-uc1" # modificado pra prueba de stress
+
 spec:
   # initContainers:
   # - name: setup-routes
