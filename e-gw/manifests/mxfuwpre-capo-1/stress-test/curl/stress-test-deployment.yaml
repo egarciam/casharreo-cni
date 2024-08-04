@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: curl-config
+data:
+  URL: "http://192.168.20.8"
+  NUM_REQUESTS: "100"
+  RUN: "false"
+  SLEEP_INTERVAL: "30"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curl
+  template:
+    metadata:
+      labels:
+        app: curl
+        egw: "poc-uc1"
+      annotations:
+        k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
+    spec:
+      affinity: #affinity is used to oblige the pod deployment on the right node(s)
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: worker-class
+                operator: In
+                values:
+                - multus
+      containers:
+      - name: curl-container
+        image: harbor.otc-caas.preprod-vnf-oiaas.nfv.orange.es/egw-utils/curl-parallel-client:latest # Replace with your image name
+        command: ["/bin/sh"]
+        args: ["-c", "./run_requests.sh"] #  http://192.168.20.8 100"] # Adjust the URL and number of requests
+        env:
+        - name: URL
+          valueFrom:
+            configMapKeyRef:
+              name: curl-config
+              key: URL
+        - name: NUM_REQUESTS
+          valueFrom:
+            configMapKeyRef:
+              name: curl-config
+              key: NUM_REQUESTS
+        - name: RUN
+          valueFrom:
+            configMapKeyRef:
+              name: curl-config
+              key: RUN
+        - name: SLEEP_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              name: curl-config
+              key: SLEEP_INTERVAL
+        volumeMounts:
+        - name: response-storage
+          mountPath: /responses
+      volumes:
+      - name: response-storage
+        emptyDir: {}
+
+
+
+

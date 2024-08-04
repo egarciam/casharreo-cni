@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wrk-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wrk
+  template:
+    metadata:
+      labels:
+        app: wrk
+        egw: "poc-uc1"
+      annotations:
+        k8s.v1.cni.cncf.io/networks: macvlan-ext-out-whereabouts
+    spec:
+      affinity: #affinity is used to oblige the pod deployment on the right node(s)
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: worker-class
+                operator: In
+                values:
+                - multus
+      containers:
+      - name: wrk-container
+        image: harbor.otc-caas.preprod-vnf-oiaas.nfv.orange.es/egw-utils/wrk:latest # Replace with your image name
+        command: ["/bin/sh"]
+        # args: ["-c", "wrk -t12 -c400 -d30s http://192.168.20.8/"]
+        args: ["-c", "wrk -t4 -c50 -d60s http://192.168.20.8/"]
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+          requests:
+            cpu: "100m"
+            memory: "64Mi"

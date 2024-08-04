@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-generic-egress
+  namespace: poc-egw
+spec:
+  podSelector:
+    matchExpressions:
+      - key: egw
+        operator: NotIn
+        values:
+          - poc-uc1
+  policyTypes:
+    - Egress
+  egress:
+    # No egress rules specified means no traffic is allowed.
+    - to:
+        - ipBlock:
+            cidr: 192.168.20.0/24   # IP range for google.com (one of them)
+            # except:
+            # - 192.168.20.8/32
