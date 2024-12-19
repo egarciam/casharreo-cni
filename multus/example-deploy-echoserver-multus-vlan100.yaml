@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoserver-vlan100
+  annotations:
+    k8s.v1.cni.cncf.io/networks: macvlan-vlan100-conf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echoserver-vlan100
+  template:
+    metadata:
+      labels:
+        app: echoserver-vlan100
+    spec:
+      containers:
+      - image: jmalloc/echo-server
+        imagePullPolicy: Always
+        name: echoserver-vlan100
+        ports:
+        - containerPort: 8080

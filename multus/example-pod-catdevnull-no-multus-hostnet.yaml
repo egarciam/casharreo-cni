@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod-no-multus-hostnet
+  #annotations:
+  #  k8s.v1.cni.cncf.io/networks: secondary-network,macvlan-conf
+spec:
+  hostNetwork: true
+  containers:
+  - name: example-no-multus-host
+    image: nicolaka/netshoot
+    command: ["tail", "-f", "/dev/null"]
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
