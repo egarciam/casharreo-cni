@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: egress-gateway
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: egress-gateway
+  template:
+    metadata:
+      labels:
+        app: egress-gateway
+    spec:
+      nodeSelector:
+        egress-gateway: "true"
+      containers:
+      - name: egress-gateway
+        image: alpine
+        command: ["/bin/sh", "-c", "sysctl -w net.ipv4.ip_forward=1; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE"]
+        securityContext:
+          privileged: true
