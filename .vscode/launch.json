@@ -5,11 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch file",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${file}"
+        },
+        {
             "name": "Debug E2E Package",
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceRoot}/e2e/capi_node_replacement_test.go"
+            "program": "${workspaceRoot}/e2e/tests/tests_suite_test.go"
         },
         {
             "name": "Launch test function",
@@ -22,6 +29,7 @@
                 "MyTestFunction"
             ]
         }
+
 
     ]
 }
